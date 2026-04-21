@@ -258,19 +258,19 @@
         </div>
 
     <script>
-        // Apni Google Sheet CSV link yahan dalein
+    
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDJXyAL2PPGERE2t3FLlqeYYzwo6yzUS91hXjCzl51cv2kBcd26ohm_l1fmIk1Yz_xfzqbiYKMMi7n/pub?gid=0&single=true&output=csv';
 
-        // Function: Google Drive link ko direct image link mein convert krna
+  
         function convertDriveLink(url) {
             // Trim whitespace
             url = url.trim();
-            // Regular expression to match standard Google Drive link format and extract File ID
+        
             const match = url.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
             if (match && match[0]) {
                 return `https://lh3.googleusercontent.com/d/${match[0]}`;
             }
-            // Agar convert na ho sky, purani link waps kardo (e.g., normal image URL)
+          
             return url;
         }
 
@@ -282,7 +282,7 @@
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
                 
-                // CSV parsing (same logic)
+            
                 const rows = data.split('\n').slice(1);
                 container.innerHTML = ''; // Clear loading msg
                 
@@ -293,11 +293,11 @@
 
                 rows.forEach(row => {
                     const columns = row.split(',');
-                    if (columns.length < 9) return; // Basic validation
+                    if (columns.length < 9) return; 
 
                     const [category, sub, title, reviews, rating, current, old, discount, drive_link] = columns;
 
-                    // Automation: Convert Drive Link to Direct Image Link
+      
                     const directImageUrl = convertDriveLink(drive_link);
 
                     const cardHTML = `
@@ -334,8 +334,8 @@
                     container.innerHTML += cardHTML;
                 });
             } catch (error) {
-                container.innerHTML = '<p style="text-align: center; color: red;">Failed to load products. Check console.</p>';
-                console.error('Data load hone mein masla hua:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Please Wait</p>';
+                console.error('Your Device Android version problem wait a few minute', error);
             }
         }
 
