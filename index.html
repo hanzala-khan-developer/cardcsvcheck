@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -213,6 +213,128 @@
                     container.innerHTML += cardHTML;
                 });
             } catch (error) {
+                console.error('Data load hone mein masla hua:', error);
+            }
+        }
+
+        fetchSheetData();
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Product Cards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS Same as before (for brevity, I'm omitting it, but keep the original CSS) */
+        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; display: flex; justify-content: center; padding: 40px; }
+        #card-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); position: relative; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .image-section { background-color: var(--bg-color); height: 250px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .badge { position: absolute; top: 15px; left: 15px; background: #b38e5d; color: white; padding: 5px 12px; border-radius: 5px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .wishlist { position: absolute; top: 15px; right: 15px; background: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d1d1d1; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .product-img { max-width: 150px; /* Thoda bara kiya image k liye */ height: 150px; object-fit: contain; }
+        .content { padding: 20px; }
+        .category { color: var(--text-gold); font-size: 12px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+        .title { font-size: 18px; font-weight: 500; color: #1a1a1a; margin-bottom: 12px; line-height: 1.4; }
+        .reviews { display: flex; align-items: center; gap: 5px; color: #888; font-size: 14px; margin-bottom: 20px; }
+        .stars { color: #cc9966; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .price-box .current { font-size: 24px; font-weight: bold; color: var(--price-red); }
+        .price-box .old { color: #bbb; text-decoration: line-through; margin-left: 5px; }
+        .discount-text { display: block; color: #1b7332; font-size: 13px; font-weight: bold; margin-top: 2px; }
+        .buy-btn { background: #1a120f; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="card-container">
+        </div>
+
+    <script>
+        // Apni Google Sheet CSV link yahan dalein
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDJXyAL2PPGERE2t3FLlqeYYzwo6yzUS91hXjCzl51cv2kBcd26ohm_l1fmIk1Yz_xfzqbiYKMMi7n/pub?gid=0&single=true&output=csv';
+
+        // Function: Google Drive link ko direct image link mein convert krna
+        function convertDriveLink(url) {
+            // Trim whitespace
+            url = url.trim();
+            // Regular expression to match standard Google Drive link format and extract File ID
+            const match = url.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
+            if (match && match[0]) {
+                return `https://lh3.googleusercontent.com/d/${match[0]}`;
+            }
+            // Agar convert na ho sky, purani link waps kardo (e.g., normal image URL)
+            return url;
+        }
+
+        async function fetchSheetData() {
+            const container = document.getElementById('card-container');
+            container.innerHTML = '<p style="text-align: center; color: #888;">Loading cards...</p>'; // Speed indicator
+
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const data = await response.text();
+                
+                // CSV parsing (same logic)
+                const rows = data.split('\n').slice(1);
+                container.innerHTML = ''; // Clear loading msg
+                
+                if (rows.length === 0 || rows[0] === '') {
+                    container.innerHTML = '<p style="text-align: center; color: #888;">No products found.</p>';
+                    return;
+                }
+
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    if (columns.length < 9) return; // Basic validation
+
+                    const [category, sub, title, reviews, rating, current, old, discount, drive_link] = columns;
+
+                    // Automation: Convert Drive Link to Direct Image Link
+                    const directImageUrl = convertDriveLink(drive_link);
+
+                    const cardHTML = `
+                        <div class="card">
+                            <div class="image-section">
+                                <div class="badge">VIRAL</div>
+                                <div class="wishlist"><i class="fas fa-heart"></i></div>
+                                <img src="${directImageUrl}" 
+                                     alt="Product Image: ${title}" 
+                                     class="product-img"
+                                     width="150" height="150"
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">
+                            </div>
+                            <div class="content">
+                                <div class="category">${category} · ${sub}</div>
+                                <div class="title">${title}</div>
+                                <div class="reviews">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(${reviews.trim()} reviews)</span>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <span class="current">$${current}</span>
+                                        <span class="old">$${old}</span>
+                                        <span class="discount-text">Save ${discount} on Amazon</span>
+                                    </div>
+                                    <button class="buy-btn">
+                                        <i class="fas fa-shopping-cart"></i> BUY
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                });
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center; color: red;">Failed to load products. Check console.</p>';
                 console.error('Data load hone mein masla hua:', error);
             }
         }
