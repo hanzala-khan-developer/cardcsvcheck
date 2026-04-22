@@ -565,28 +565,53 @@
 </head>
 <body>
 
-    <div class="filter-container">
-        <div class="filter-item active" onclick="filterCards('all', this)">
-        <i class="fa-solid fa-droplet"></i>
-            <span>All</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Serum', this)">
-            <i class="fas fa-tint"></i>
-            <span>Serums</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Moisturizers', this)">
-            <i class="fas fa-pump-soap"></i>
-            <span>Moisturizers</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('SPF', this)">
-            <i class="fas fa-sun"></i>
-            <span>SPF</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Eye Creams', this)">
-            <i class="fas fa-eye"></i>
-            <span>Eye Care</span>
-        </div>
+  <div class="container py-4">
+  <div class="row g-3">
+    
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card shadow-sm">
+        <div class="icon">💧</div>
+        <h6>Serums</h6>
+      </div>
     </div>
+
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card shadow-sm">
+        <div class="icon">🧴</div>
+        <h6>Moisturizers</h6>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card shadow-sm">
+        <div class="icon">☀️</div>
+        <h6>SPF & Sun Care</h6>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card shadow-sm">
+        <div class="icon">👁️</div>
+        <h6>Eye Creams</h6>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card shadow-sm">
+        <div class="icon">💊</div>
+        <h6>Supplements</h6>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg">
+      <div class="filter-card active shadow-sm">
+        <div class="icon">🪄</div>
+        <h6>Beauty Tools</h6>
+      </div>
+    </div>
+
+  </div>
+</div>
 
     <div id="card-container"></div>
 
