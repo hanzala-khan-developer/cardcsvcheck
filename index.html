@@ -563,12 +563,6 @@
         }
 
 
-      
-   
-  body {
-    background-color: #fdfbf9; /* Light background like image */
-  }
-
   .filter-card {
     background: #ffffff;
     border: 1px solid #f0f0f0;
@@ -624,49 +618,51 @@
     }
   }
     </style>
+    
 </head>
 <body>
 
-  <div class="container py-4">
-  <div class="row g-3">
+<div class="container-fluid py-4">
+  <div class="d-flex flex-nowrap gap-3 overflow-auto pb-3" style="scrollbar-width: none; -ms-overflow-style: none;">
+    <style>.d-flex::-webkit-scrollbar { display: none; }</style>
     
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card shadow-sm" onclick="filterCards('Serum', this)">
         <div class="icon">💧</div>
         <h6>Serums</h6>
       </div>
     </div>
 
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card shadow-sm" onclick="filterCards('Moisturizers', this)">
         <div class="icon">🧴</div>
         <h6>Moisturizers</h6>
       </div>
     </div>
 
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card shadow-sm" onclick="filterCards('SPF', this)">
         <div class="icon">☀️</div>
         <h6>SPF & Sun Care</h6>
       </div>
     </div>
 
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card shadow-sm" onclick="filterCards('Eye Creams', this)">
         <div class="icon">👁️</div>
         <h6>Eye Creams</h6>
       </div>
     </div>
 
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card shadow-sm" onclick="filterCards('Supplements', this)">
         <div class="icon">💊</div>
         <h6>Supplements</h6>
       </div>
     </div>
 
-    <div class="col-6 col-md-4 col-lg">
-      <div class="filter-card active shadow-sm">
+    <div style="min-width: 140px;">
+      <div class="filter-card active shadow-sm" onclick="filterCards('Tools', this)">
         <div class="icon">🪄</div>
         <h6>Beauty Tools</h6>
       </div>
@@ -674,6 +670,7 @@
 
   </div>
 </div>
+
 
     <div id="card-container"></div>
 
