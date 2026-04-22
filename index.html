@@ -102,7 +102,7 @@
 
     <div id="card-container"></div>
 
-    <script>
+    <!-- <script>
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
 
         function convertDriveLink(url) {
@@ -168,6 +168,90 @@
                 container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Connection Error. Please check your link.</p>';
             }
         }
+        fetchSheetData();
+    </script> -->
+
+        <script>
+    
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
+
+  
+        function convertDriveLink(url) {
+            // Trim whitespace
+            url = url.trim();
+        
+            const match = url.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
+            if (match && match[0]) {
+                return `https://lh3.googleusercontent.com/d/${match[0]}`;
+            }
+          
+            return url;
+        }
+
+        async function fetchSheetData() {
+            const container = document.getElementById('card-container');
+            container.innerHTML = '<p style="text-align: center; color: #888;">Loading cards...</p>'; // Speed indicator
+
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const data = await response.text();
+                
+            
+                const rows = data.split('\n').slice(1);
+                container.innerHTML = ''; // Clear loading msg
+                
+                if (rows.length === 0 || rows[0] === '') {
+                    container.innerHTML = '<p style="text-align: center; color: #888;">No products found.</p>';
+                    return;
+                }
+
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    if (columns.length < 9) return; 
+
+                    const [category, sub, title, reviews, rating, current, old, discount, drive_link] = columns;
+
+      
+                    const directImageUrl = convertDriveLink(drive_link);
+
+                    const cardHTML = `
+                        <div class="card">
+                            <div class="image-section">
+                              
+                                <img src="${directImageUrl}" 
+                                     alt="Product Image: ${title}" 
+                                     class="product-img"
+                                     width="200" height="200"
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">
+                            </div>
+                            <div class="content">
+                                <div class="category">${category} · ${sub}</div>
+                                <div class="title">${title}</div>
+                                <div class="reviews">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(${reviews.trim()} reviews)</span>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price-box">
+                                        <span class="current">$${current}</span>
+                                        <span class="old">$${old}</span>
+                                        <span class="discount-text">Save ${discount} on Amazon</span>
+                                    </div>
+                                    <button class="buy-btn">
+                                        <i class="fas fa-shopping-cart"></i> BUY
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                });
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center; color: red;">Please Wait</p>';
+                console.error('Your Device Android version problem wait a few minute', error);
+            }
+        }
+
         fetchSheetData();
     </script>
 </body>
