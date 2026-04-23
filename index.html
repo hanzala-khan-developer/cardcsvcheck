@@ -1,446 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Product Cards</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f5f5f5; 
-            margin: 0;
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-        }
-
-      
-        #card-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 20px; 
-            width: 100%; 
-            max-width: 1200px; 
-        }
-
-   
-        .card { 
-            background: white; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
-            position: relative; 
-            transition: transform 0.3s ease; 
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card:hover { transform: translateY(-5px); }
-
-        /* 3. Image Section Responsive */
-        .image-section { 
-            background-color: var(--bg-color); 
-            height: 220px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative; 
-            padding: 0 !important;
-        }
-
-        .product-img { 
-           width: 100% !important; 
-            height: 100% !important; 
-            max-width: 100% !important; 
-            max-height: 100% !important; 
-            object-fit: cover !important; 
-            display: block;
-        }
-
-     
-        .content { padding: 15px; flex-grow: 1; }
-        .category { color: var(--text-gold); font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-        .title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 10px; line-height: 1.4; height: 45px; overflow: hidden; }
-        .reviews { display: flex; align-items: center; gap: 5px; color: #888; font-size: 13px; margin-bottom: 15px; }
-        .stars { color: #cc9966; }
-
-        .card-footer { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-top: 1px solid #eee; 
-            padding-top: 10px; 
-            margin-top: auto; 
-        }
-
-        .price-box .current { font-size: 20px; font-weight: bold; color: var(--price-red); }
-        .price-box .old { color: #bbb; text-decoration: line-through; margin-left: 5px; font-size: 14px; }
-        .discount-text { display: block; color: #1b7332; font-size: 12px; font-weight: bold; }
-
-        .buy-btn { 
-            background: #1a120f; 
-            color: white; 
-            border: none; 
-            padding: 8px 15px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 14px;
-        }
-
-       
-        @media (max-width: 350px) {
-            #card-container { grid-template-columns: 1fr; }
-            .price-box .current { font-size: 18px; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="card-container"></div>
-
-        <script>
-    
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
-
-  
-        function convertDriveLink(url) {
-            // Trim whitespace
-            url = url.trim();
-        
-            const match = url.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
-            if (match && match[0]) {
-                return `https://lh3.googleusercontent.com/d/${match[0]}`;
-            }
-          
-            return url;
-        }
-
-        async function fetchSheetData() {
-            const container = document.getElementById('card-container');
-            container.innerHTML = '<p style="text-align: center; color: #888;">Loading cards...</p>'; // Speed indicator
-
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const data = await response.text();
-                
-            
-                const rows = data.split('\n').slice(1);
-                container.innerHTML = ''; // Clear loading msg
-                
-                if (rows.length === 0 || rows[0] === '') {
-                    container.innerHTML = '<p style="text-align: center; color: #888;">No products found.</p>';
-                    return;
-                }
-
-                rows.forEach(row => {
-                    const columns = row.split(',');
-                    if (columns.length < 9) return; 
-
-                    const [category, sub, title, reviews, rating, current, old, discount, drive_link] = columns;
-
-      
-                    const directImageUrl = convertDriveLink(drive_link);
-
-                    const cardHTML = `
-                        <div class="card">
-                            <div class="image-section">
-                              
-                                <img src="${directImageUrl}" 
-                                     alt="Product Image: ${title}" 
-                                     class="product-img"
-                                     width="150" height="150"
-                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Error+Loading+Image'">
-                            </div>
-                            <div class="content">
-                                <div class="category">${category} · ${sub}</div>
-                                <div class="title">${title}</div>
-                                <div class="reviews">
-                                    <span class="stars">★★★★★</span>
-                                    <span>(${reviews.trim()} reviews)</span>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="price-box">
-                                        <span class="current">$${current}</span>
-                                        <span class="old">$${old}</span>
-                                        <span class="discount-text">Save ${discount} on Amazon</span>
-                                    </div>
-                                    <button class="buy-btn">
-                                        <i class="fas fa-shopping-cart"></i> BUY
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += cardHTML;
-                });
-            } catch (error) {
-                container.innerHTML = '<p style="text-align: center; color: red;">Please Wait</p>';
-                console.error('Your Device Android version problem wait a few minute', error);
-            }
-        }
-
-        fetchSheetData();
-    </script>
-</body>
-</html> -->
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Product Cards</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f5f5f5; 
-            margin: 0;
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-        }
-
-        /* --- Filter Styles --- */
-        .filter-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            padding: 10px;
-            width: 100%;
-            max-width: 1200px;
-            justify-content: center;
-        }
-
-        .filter-item {
-            background: white;
-            padding: 15px 25px;
-            border-radius: 15px;
-            cursor: pointer;
-            text-align: center;
-            min-width: 100px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .filter-item:hover { transform: translateY(-3px); }
-        .filter-item.active { border-color: var(--price-red); }
-
-        .filter-item i { font-size: 24px; margin-bottom: 8px; display: block; color: #555; }
-        .filter-item span { font-size: 14px; font-weight: 600; color: #333; }
-        .filter-item small { display: block; color: #888; font-size: 12px; }
-
-        /* --- Existing Styles --- */
-        #card-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 20px; 
-            width: 100%; 
-            max-width: 1200px; 
-        }
-
-        .card { 
-            background: white; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
-            position: relative; 
-            transition: transform 0.3s ease; 
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card:hover { transform: translateY(-5px); }
-
-        .image-section { 
-            background-color: var(--bg-color); 
-            height: 220px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative; 
-            padding: 0 !important;
-        }
-
-        .product-img { 
-            width: 100% !important; 
-            height: 100% !important; 
-            object-fit: cover !important; 
-            display: block;
-        }
-
-        .content { padding: 15px; flex-grow: 1; }
-        .category { color: var(--text-gold); font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-        .title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 10px; line-height: 1.4; height: 45px; overflow: hidden; }
-        .reviews { display: flex; align-items: center; gap: 5px; color: #888; font-size: 13px; margin-bottom: 15px; }
-        .stars { color: #cc9966; }
-
-        .card-footer { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-top: 1px solid #eee; 
-            padding-top: 10px; 
-            margin-top: auto; 
-        }
-
-        .price-box .current { font-size: 20px; font-weight: bold; color: var(--price-red); }
-        .price-box .old { color: #bbb; text-decoration: line-through; margin-left: 5px; font-size: 14px; }
-        .discount-text { display: block; color: #1b7332; font-size: 12px; font-weight: bold; }
-
-        .buy-btn { 
-            background: #1a120f; 
-            color: white; 
-            border: none; 
-            padding: 8px 15px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 14px;
-        }
-
-        @media (max-width: 350px) {
-            #card-container { grid-template-columns: 1fr; }
-            .price-box .current { font-size: 18px; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="filter-container">
-        <div class="filter-item active" onclick="filterCards('all', this)">
-            <i class="fas fa-th-large"></i>
-            <span>All</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Serum', this)">
-            <i class="fas fa-tint"></i>
-            <span>Serums</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Moisturizers', this)">
-            <i class="fas fa-pump-soap"></i>
-            <span>Moisturizers</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('SPF', this)">
-            <i class="fas fa-sun"></i>
-            <span>SPF & Sun</span>
-        </div>
-        <div class="filter-item" onclick="filterCards('Eye Creams', this)">
-            <i class="fas fa-eye"></i>
-            <span>Eye Creams</span>
-        </div>
-    </div>
-
-    <div id="card-container"></div>
-
-    <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
-
-        function convertDriveLink(url) {
-            url = url.trim();
-            const match = url.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
-            if (match && match[0]) {
-                return `https://lh3.googleusercontent.com/u/0/d/${match[0]}`;
-            }
-            return url;
-        }
-
-        // Global variable to store all products
-        let allProducts = [];
-
-        async function fetchSheetData() {
-            const container = document.getElementById('card-container');
-            container.innerHTML = '<p style="text-align: center; color: #888;">==MOST WELCOME==</p>';
-
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                
-                allProducts = rows.map(row => {
-                    const columns = row.split(',');
-                    if (columns.length < 9) return null;
-                    const [category, sub, title, reviews, rating, current, old, discount, drive_link] = columns;
-                    return { category, sub, title, reviews, rating, current, old, discount, drive_link };
-                }).filter(p => p !== null);
-
-                renderCards(allProducts);
-
-            } catch (error) {
-                container.innerHTML = '<p style="text-align: center; color: red;">Error Loading Data</p>';
-                console.error(error);
-            }
-        }
-
-        function renderCards(products) {
-            const container = document.getElementById('card-container');
-            container.innerHTML = '';
-
-            if (products.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #888;">No products found in this category.</p>';
-                return;
-            }
-
-            products.forEach(p => {
-                const directImageUrl = convertDriveLink(p.drive_link);
-                const cardHTML = `
-                    <div class="card">
-                        <div class="image-section">
-                            <img src="${directImageUrl}" alt="${p.title}" class="product-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Error'">
-                        </div>
-                        <div class="content">
-                            <div class="category">${p.category} · ${p.sub}</div>
-                            <div class="title">${p.title}</div>
-                            <div class="reviews">
-                                <span class="stars">★★★★★</span>
-                                <span>(${p.reviews.trim()} reviews)</span>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price-box">
-                                    <span class="current">$${p.current}</span>
-                                    <span class="old">$${p.old}</span>
-                                    <span class="discount-text">Save ${p.discount}</span>
-                                </div>
-                                <button class="buy-btn"><i class="fas fa-shopping-cart"></i> BUY</button>
-                            </div>
-                        </div>
-                    </div>`;
-                container.innerHTML += cardHTML;
-            });
-        }
-
-        // Logic for filtering
-        function filterCards(category, element) {
-            // Update Active UI
-            document.querySelectorAll('.filter-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
-
-            if (category === 'all') {
-                renderCards(allProducts);
-            } else {
-                // Category matching (lowercase check for safety)
-                const filtered = allProducts.filter(p => 
-                    p.category.toLowerCase().includes(category.toLowerCase()) || 
-                    p.sub.toLowerCase().includes(category.toLowerCase())
-                );
-                renderCards(filtered);
-            }
-        }
-
-        fetchSheetData();
-    </script>
-</body>
-</html> -->
 
 
 
@@ -666,20 +223,20 @@
 </body>
 </html> -->
 
-<!-- <!DOCTYPE html>
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Product Cards | Premium Collection</title>
-    <meta name="description" content="Browse our exclusive range of premium products with the best discounts and top ratings.">
-    <meta name="robots" content="index, follow">
-    
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://docs.google.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <title>Extreme Performance Shop</title>
+    <meta name="description" content="High performance catalog">
 
-    <style>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+     <style>
         :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
         
         body { 
@@ -692,6 +249,7 @@
             align-items: center; 
         }
 
+        /* --- Filter Styles (Scrollable on Mobile) --- */
         .filter-container {
             display: flex;
             gap: 10px;
@@ -701,9 +259,9 @@
             width: 100%;
             max-width: 1200px;
             white-space: nowrap;
-            scrollbar-width: none;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
         }
-        .filter-container::-webkit-scrollbar { display: none; }
+        .filter-container::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
         .filter-item {
             background: white;
@@ -722,20 +280,22 @@
         .filter-item i { font-size: 20px; margin-bottom: 5px; display: block; color: #555; }
         .filter-item span { font-size: 13px; font-weight: 600; color: #333; }
 
+        /* --- Card Container --- */
         #card-container { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Default for small screens */
             gap: 12px; 
             width: 100%; 
             max-width: 1200px; 
-            min-height: 400px; /* Layout shift prevent karne ke liye */
         }
 
+        /* Desktop view adjustments */
         @media (min-width: 768px) {
             #card-container { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
             body { padding: 20px; }
         }
 
+        /* --- Card Design --- */
         .card { 
             background: white; 
             border-radius: 15px; 
@@ -743,31 +303,30 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
-            content-visibility: auto; /* Performance optimization */
+            transition: 0.3s;
         }
         
         .image-section { 
             background-color: var(--bg-color); 
-            height: 150px; 
+            height: 150px; /* Smaller height for 2-column mobile view */
             overflow: hidden;
         }
 
         @media (min-width: 768px) { .image-section { height: 220px; } }
 
-        .product-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1/1; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
 
         .content { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
         .category { color: var(--text-gold); font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
         .title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         
-        .reviews { display: flex; align-items: center; gap: 3px; color: #555; font-size: 11px; margin-bottom: 10px; }
+        .reviews { display: flex; align-items: center; gap: 3px; color: #888; font-size: 11px; margin-bottom: 10px; }
         .stars { color: #cc9966; }
 
         .card-footer { border-top: 1px solid #eee; padding-top: 8px; margin-top: auto; }
         .price-box { margin-bottom: 8px; }
         .current { font-size: 16px; font-weight: bold; color: var(--price-red); }
-        .old { color: #767676; text-decoration: line-through; margin-left: 4px; font-size: 12px; }
+        .old { color: #bbb; text-decoration: line-through; margin-left: 4px; font-size: 12px; }
         .discount-text { display: block; color: #1b7332; font-size: 11px; font-weight: bold; }
 
         .buy-btn { 
@@ -775,7 +334,7 @@
             color: white; 
             border: none; 
             width: 100%;
-            padding: 10px; 
+            padding: 8px; 
             border-radius: 6px; 
             font-weight: bold; 
             cursor: pointer; 
@@ -785,119 +344,9 @@
             justify-content: center;
             gap: 5px;
         }
-        .buy-btn:hover { opacity: 0.9; }
     </style>
-</head>
-<body>
 
-    <main id="card-container" role="main"></main>
-
-    <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
-        let allProducts = [];
-
-        function convertDriveLink(url) {
-            if (!url) return 'https://via.placeholder.com/150';
-            const match = url.trim().match(/[-\w]{25,}(?!.*[-\w]{25,})/);
-            // Updated to use official direct link format for better performance
-            return match ? `https://lh3.googleusercontent.com/d/${match[0]}` : url;
-        }
-
-        async function fetchSheetData() {
-            const container = document.getElementById('card-container');
-            container.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">Loading Products...</div>';
-
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                
-                allProducts = rows.map(row => {
-                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // Better CSV parsing
-                    if (columns.length < 9) return null;
-                    return {
-                        category: columns[0]?.replace(/"/g, '').trim(),
-                        sub: columns[1]?.trim(),
-                        title: columns[2]?.replace(/"/g, '').trim(),
-                        reviews: columns[3]?.trim(),
-                        current: columns[5]?.trim(),
-                        old: columns[6]?.trim(),
-                        discount: columns[7]?.trim(),
-                        drive_link: columns[8]?.trim()
-                    };
-                }).filter(p => p !== null);
-
-                renderCards(allProducts);
-            } catch (error) {
-                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red;">Failed to load data. Please refresh.</div>';
-            }
-        }
-
-        function renderCards(products) {
-            const container = document.getElementById('card-container');
-            const fragment = document.createDocumentFragment();
-            container.innerHTML = '';
-
-            if (products.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No products found.</p>';
-                return;
-            }
-
-            products.forEach(p => {
-                const card = document.createElement('article');
-                card.className = 'card';
-                const imgUrl = convertDriveLink(p.drive_link);
-                
-                card.innerHTML = `
-                    <div class="image-section">
-                        <img src="${imgUrl}" 
-                             alt="${p.title}" 
-                             class="product-img" 
-                             loading="lazy" 
-                             onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
-                    </div>
-                    <div class="content">
-                        <span class="category">${p.category}</span>
-                        <h2 class="title">${p.title}</h2>
-                        <div class="reviews">
-                            <span class="stars" aria-hidden="true">★★★★★</span>
-                            <span>(${p.reviews}) <span class="sr-only">reviews</span></span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <span class="current">$${p.current}</span>
-                                <span class="old">$${p.old}</span>
-                                <span class="discount-text">Save ${p.discount}</span>
-                            </div>
-                            <button class="buy-btn" aria-label="Buy ${p.title} now">
-                                <i class="fas fa-shopping-cart" aria-hidden="true"></i> BUY
-                            </button>
-                        </div>
-                    </div>`;
-                fragment.appendChild(card);
-            });
-            container.appendChild(fragment);
-        }
-
-        // Initialize
-        fetchSheetData();
-    </script>
-</body>
-</html> -->
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extreme Performance Shop</title>
-    <meta name="description" content="High performance catalog">
-
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-
-    <style>
+    <!-- <style>
         :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
         
         body { 
@@ -955,8 +404,10 @@
         }
         
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-    </style>
+    </style> -->
 </head>
+
+
 <body>
 
     <main id="card-container" role="main"></main>
