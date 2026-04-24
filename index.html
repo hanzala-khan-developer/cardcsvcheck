@@ -163,7 +163,6 @@
 </body>
 </html> -->
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -176,7 +175,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
 
     <style>
-        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; --accent-brown: #a36754; }
+        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; --filter-border: #a36754; }
         
         body { 
             font-family: system-ui, -apple-system, sans-serif; 
@@ -184,48 +183,54 @@
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- Filter Section Styling --- */
-        .filter-container {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto; /* Desktop par scrollable agar zyada hon */
-            gap: 15px;
-            padding: 20px 10px;
+        /* --- FILTER SECTION (STRICTLY AS REQUESTED) --- */
+        .filter-wrapper {
             width: 100%;
             max-width: 1200px;
-            justify-content: flex-start;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
+            margin-bottom: 30px;
         }
-        .filter-container::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
 
         .filter-card {
             background: white;
             border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 15px;
-            min-width: 110px;
+            border-radius: 15px;
+            padding: 20px 10px;
+            flex: 1; /* Desktop par barabar divide honge */
+            max-width: 160px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
-            flex-shrink: 0;
         }
 
-        .filter-card.active { border: 2px solid var(--accent-brown); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .filter-card .f-icon { font-size: 24px; margin-bottom: 5px; display: block; }
-        .filter-card .f-title { font-size: 13px; font-weight: bold; color: #333; display: block; }
-        .filter-card .f-count { font-size: 11px; color: #888; }
+        .filter-card.active {
+            border: 2px solid var(--filter-border);
+        }
 
-        @media (max-width: 600px) {
+        .filter-card img { width: 30px; height: 30px; margin-bottom: 8px; object-fit: contain; }
+        .filter-card .f-title { display: block; font-weight: 700; font-size: 14px; color: #333; }
+        .filter-card .f-count { display: block; font-size: 12px; color: #888; margin-top: 4px; }
+
+        /* Mobile View: 2 items per line */
+        @media (max-width: 768px) {
             .filter-container {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr); /* Mobile par 1 line mein 2 */
-                flex-wrap: wrap;
-                overflow-x: hidden;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
-            .filter-card { min-width: unset; padding: 10px; }
+            .filter-card {
+                max-width: none;
+                padding: 15px 5px;
+            }
         }
 
-        /* --- Your Original Card Styles (Unchanged) --- */
+        /* --- YOUR ORIGINAL CARD CODE (NO CHANGES) --- */
         #card-container { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
@@ -262,22 +267,38 @@
 </head>
 <body>
 
-    <div class="filter-container" id="filter-box">
-        <div class="filter-card active" onclick="filterData('All', this)">
-            <span class="f-icon">✨</span>
-            <span class="f-title">All Items</span>
-        </div>
-        <div class="filter-card" onclick="filterData('Serums', this)">
-            <span class="f-icon">💧</span>
-            <span class="f-title">Serums</span>
-        </div>
-        <div class="filter-card" onclick="filterData('Moisturizers', this)">
-            <span class="f-icon">🧴</span>
-            <span class="f-title">Moisturizers</span>
-        </div>
-        <div class="filter-card" onclick="filterData('SPF', this)">
-            <span class="f-icon">☀️</span>
-            <span class="f-title">SPF & Sun</span>
+    <div class="filter-wrapper">
+        <div class="filter-container">
+            <div class="filter-card active" onclick="filterItems('Serums', this)">
+                <span style="font-size: 24px;">💧</span>
+                <span class="f-title">Serums</span>
+                <span class="f-count">124 items</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Moisturizers', this)">
+                <span style="font-size: 24px;">🧴</span>
+                <span class="f-title">Moisturizers</span>
+                <span class="f-count">89 items</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('SPF', this)">
+                <span style="font-size: 24px;">☀️</span>
+                <span class="f-title">SPF & Sun Care</span>
+                <span class="f-count">56 items</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Eye Creams', this)">
+                <span style="font-size: 24px;">👁️</span>
+                <span class="f-title">Eye Creams</span>
+                <span class="f-count">43 items</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Supplements', this)">
+                <span style="font-size: 24px;">💊</span>
+                <span class="f-title">Supplements</span>
+                <span class="f-count">78 items</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Tools', this)">
+                <span style="font-size: 24px;">🪄</span>
+                <span class="f-title">Beauty Tools</span>
+                <span class="f-count">55 items</span>
+            </div>
         </div>
     </div>
 
@@ -285,8 +306,7 @@
 
     <script>
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
-        
-        let allProducts = []; // Global storage for all items
+        let allProducts = [];
 
         const convertDriveLink = (url) => {
             if (!url) return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -297,12 +317,10 @@
         async function fetchProducts() {
             try {
                 const response = await fetch(SHEET_CSV_URL);
-                const result = await response.text();
-                allProducts = parseCSV(result);
+                const text = await response.text();
+                allProducts = parseCSV(text);
                 renderBatch(allProducts);
-            } catch (e) {
-                console.error("Load failed");
-            }
+            } catch (e) { console.error("Load failed"); }
         }
 
         function parseCSV(text) {
@@ -325,19 +343,12 @@
             return items;
         }
 
-        // --- Filtering Logic ---
-        function filterData(category, element) {
-            // UI Update: Active class change
-            document.querySelectorAll('.filter-card').forEach(card => card.classList.remove('active'));
-            element.classList.add('active');
-
-            // Logic: Filter items
-            if (category === 'All') {
-                renderBatch(allProducts);
-            } else {
-                const filtered = allProducts.filter(p => p.c.toLowerCase().includes(category.toLowerCase()));
-                renderBatch(filtered);
-            }
+        // Filter Function
+        function filterItems(cat, el) {
+            document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            const filtered = allProducts.filter(p => p.c.toLowerCase().includes(cat.toLowerCase()));
+            renderBatch(filtered);
         }
 
         function renderBatch(items) {
@@ -360,8 +371,8 @@
                                 <span class="old">$${p.o}</span>
                                 <span class="discount-text">Save ${p.d}</span>
                             </div>
-                            <button class="buy-btn" aria-label="Buy ${p.t}">
-                                <i class="fas fa-shopping-cart" aria-hidden="true"></i> BUY
+                            <button class="buy-btn">
+                                <i class="fas fa-shopping-cart"></i> BUY
                             </button>
                         </div>
                     </div>
