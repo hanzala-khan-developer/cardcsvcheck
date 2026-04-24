@@ -1,167 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extreme Performance Shop</title>
-    <meta name="description" content="High performance catalog">
-
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-
-    <style>
-        :root { --bg-color: #fcf8f5; --text-gold: #b38e5d; --price-red: #c06344; }
-        
-        body { 
-            font-family: system-ui, -apple-system, sans-serif; 
-            background-color: #f5f5f5; margin: 0; padding: 10px; 
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        #card-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-            gap: 12px; width: 100%; max-width: 1200px;
-            /* CRITICAL: Yeh 1000 cards ko handle karne ki jaan hai */
-            content-visibility: auto; 
-            contain-intrinsic-size: 1000px; 
-        }
-
-        @media (min-width: 768px) {
-            #card-container { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-            body { padding: 20px; }
-        }
-
-        /* Card performance optimizations */
-        .card { 
-            background: white; border-radius: 15px; overflow: hidden; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column;
-            contain: layout style; /* Browser ko batata hai ki card ke andar ka change bahar asar nahi karega */
-            height: 100%;
-        }
-        
-        .image-section { 
-            background-color: var(--bg-color); 
-            aspect-ratio: 1/1; /* Layout shift zero karne ke liye */
-            overflow: hidden; width: 100%;
-        }
-
-        .product-img { width: 100%; height: 100%; object-fit: cover; border: 0; }
-
-        .content { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
-        .category { color: var(--text-gold); font-size: 10px; font-weight: bold; text-transform: uppercase; }
-        .title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 8px 0; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        
-        .reviews { display: flex; align-items: center; gap: 3px; color: #666; font-size: 11px; margin-bottom: 10px; }
-        .stars { color: #cc9966; }
-
-        .card-footer { border-top: 1px solid #eee; padding-top: 8px; margin-top: auto; }
-        .current { font-size: 16px; font-weight: bold; color: var(--price-red); }
-        .old { color: #888; text-decoration: line-through; margin-left: 4px; font-size: 12px; }
-        .discount-text { display: block; color: #1b7332; font-size: 11px; font-weight: bold; }
-
-        .buy-btn { 
-            background: #1a120f; color: white; border: none; width: 100%;
-            padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; 
-            font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
-        
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-    </style>
-</head>
-<body>
-
-    <main id="card-container" role="main"></main>
-
-    <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
-
-        const convertDriveLink = (url) => {
-            if (!url) return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-            const id = url.match(/[-\w]{25,}/);
-            // Thumbnail mode use kar rahe hain (sz=w300) taaki 1000 images load hone par browser crash na ho
-            return id ? `https://lh3.googleusercontent.com/u/0/d/${id[0]}=w300-h300-p` : url;
-        };
-
-        async function fetchProducts() {
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder("utf-8");
-                let result = '';
-                
-                // Stream parsing for large CSV files
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    result += decoder.decode(value, { stream: true });
-                }
-                
-                const data = parseCSV(result);
-                // Batch rendering: 1000 items ko ek saath DOM mein dalne ke liye map() faster hai innerHTML se
-                renderBatch(data);
-            } catch (e) {
-                console.error("Load failed");
-            }
-        }
-
-        function parseCSV(text) {
-            const rows = text.split('\n');
-            const items = [];
-            for (let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (cols.length >= 9) {
-                    items.push({
-                        c: cols[0].replace(/"/g, ''),
-                        t: cols[2].replace(/"/g, ''),
-                        r: cols[3],
-                        p: cols[5],
-                        o: cols[6],
-                        d: cols[7],
-                        l: cols[8]
-                    });
-                }
-            }
-            return items;
-        }
-
-        function renderBatch(items) {
-            const container = document.getElementById('card-container');
-            // String building is faster than multiple DOM injections for 1000 nodes
-            const html = items.map(p => `
-                <article class="card">
-                    <div class="image-section">
-                        <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy" width="300" height="300">
-                    </div>
-                    <div class="content">
-                        <span class="category">${p.c}</span>
-                        <h2 class="title">${p.t}</h2>
-                        <div class="reviews">
-                            <span class="stars" aria-hidden="true">★★★★★</span>
-                            <span>(${p.r}) <span class="sr-only">reviews</span></span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <span class="current">$${p.p}</span>
-                                <span class="old">$${p.o}</span>
-                                <span class="discount-text">Save ${p.d}</span>
-                            </div>
-                            <button class="buy-btn" aria-label="Buy ${p.t}">
-                                <i class="fas fa-shopping-cart" aria-hidden="true"></i> BUY
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            `).join('');
-            
-            container.innerHTML = html;
-        }
-
-        // Start fetching
-        fetchProducts();
-    </script>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -256,7 +92,7 @@
         .card-footer { border-top: 1px solid #eee; padding-top: 8px; margin-top: auto; }
         .current { font-size: 16px; font-weight: bold; color: var(--price-red); }
         .old { color: #888; text-decoration: line-through; margin-left: 4px; font-size: 12px; }
-        .discount-text { display: block; color: #1b7332; font-size: 11px; font-weight: bold; }
+        .discount-text { display: block; color: #1b7332; font-size: 12px; font-weight: bold; }
         .buy-btn { background: #1a120f; color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
     </style>
@@ -360,7 +196,7 @@
                         <h2 class="title">${p.t}</h2>
                         <div class="reviews">
                             <span class="stars" aria-hidden="true">★★★★★</span>
-                            <span>(${p.r}) <span class="sr-only">reviews</span></span>
+                            <span class="sr-only">(${p.r}) reviews</span>
                         </div>
                         <div class="card-footer">
                             <div class="price-box">
