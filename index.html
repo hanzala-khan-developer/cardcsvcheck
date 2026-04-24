@@ -316,7 +316,7 @@
                 const text = await response.text();
                 allProducts = parseCSV(text);
                 renderBatch(allProducts);
-            } catch (e) { console.error("Load failed"); }
+            } catch (e) { console.error("PLEASE CHECK YOUR INTERNET"); }
         }
 
         function parseCSV(text) {
@@ -355,6 +355,7 @@
                     </div>
                     <div class="content">
                         <span class="category">${p.c}</span>
+                          <span class="sub_category">${p.s}</span>
                         <h2 class="title">${p.t}</h2>
                         <div class="reviews">
                             <span class="stars" aria-hidden="true">★★★★★</span>
