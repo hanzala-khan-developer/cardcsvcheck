@@ -227,6 +227,7 @@
 <link rel="stylesheet" href="ayan.css">
 <link rel="stylesheet" href="ayan.js">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
 :root {
   --ivory: #FAF7F4;
@@ -239,13 +240,10 @@
   --text: #3A1F14;
   --muted: #7A5548;
   --white: #FFFFFF;
-  --price-red: #c06344;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'Jost', sans-serif;
   background: var(--ivory);
@@ -288,16 +286,9 @@ nav {
   text-decoration: none;
   letter-spacing: -0.5px;
 }
-.logo span {
-  color: var(--rose);
-  font-style: italic;
-}
+.logo span { color: var(--rose); font-style: italic; }
 
-.nav-center {
-  display: flex;
-  gap: 36px;
-  list-style: none;
-}
+.nav-center { display: flex; gap: 36px; list-style: none; }
 .nav-center a {
   text-decoration: none;
   color: var(--muted);
@@ -320,848 +311,177 @@ nav {
 .nav-center a:hover::after { width: 100%; }
 
 .nav-right { display: flex; align-items: center; gap: 16px; }
-
-.search-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--muted);
-  transition: color 0.3s;
-}
-.search-btn:hover { color: var(--rose); }
-
+.search-btn { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--muted); transition: color 0.3s; }
 .nav-cta {
-  background: var(--rose);
-  color: white;
-  padding: 10px 22px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.3s;
+  background: var(--rose); color: white; padding: 10px 22px; border-radius: 4px;
+  text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; transition: all 0.3s;
 }
-.nav-cta:hover {
-  background: var(--deep-rose);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(196,112,90,0.35);
-}
+.nav-cta:hover { background: var(--deep-rose); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,112,90,0.35); }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-.hamburger span {
-  width: 24px; height: 2px;
-  background: var(--dark);
-  border-radius: 2px;
-  transition: all 0.3s;
-}
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+.hamburger span { width: 24px; height: 2px; background: var(--dark); border-radius: 2px; transition: all 0.3s; }
 
 /* ===== HERO ===== */
 .hero {
-  min-height: 92vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  padding: 60px 40px;
-  gap: 60px;
-  position: relative;
-  overflow: hidden;
+  min-height: 92vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  padding: 60px 40px; gap: 60px; position: relative; overflow: hidden;
 }
-
 .hero::before {
-  content: '';
-  position: absolute;
-  top: -200px; right: -200px;
-  width: 700px; height: 700px;
+  content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px;
   background: radial-gradient(circle, rgba(232,196,176,0.3) 0%, transparent 65%);
-  border-radius: 50%;
-  animation: breathe 7s ease-in-out infinite;
+  border-radius: 50%; animation: breathe 7s ease-in-out infinite;
 }
-
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 1; }
-}
+@keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
 
 .hero-left { position: relative; z-index: 2; }
-
 .hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--warm);
-  border: 1px solid var(--blush);
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 28px;
-  animation: fadeSlideUp 0.8s ease both;
+  display: inline-flex; align-items: center; gap: 8px; background: var(--warm);
+  border: 1px solid var(--blush); padding: 8px 18px; border-radius: 50px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 28px; animation: fadeSlideUp 0.8s ease both;
 }
-
 .hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(48px, 6vw, 78px);
-  font-weight: 300;
-  line-height: 1.08;
-  margin-bottom: 24px;
-  animation: fadeSlideUp 0.8s ease 0.1s both;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 6vw, 78px);
+  font-weight: 300; line-height: 1.08; margin-bottom: 24px; animation: fadeSlideUp 0.8s ease 0.1s both;
 }
 .hero-title strong { font-weight: 600; }
-.hero-title em {
-  font-style: italic;
-  color: var(--rose);
-}
+.hero-title em { font-style: italic; color: var(--rose); }
 
 .hero-desc {
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--muted);
-  font-weight: 300;
-  margin-bottom: 40px;
-  max-width: 480px;
-  animation: fadeSlideUp 0.8s ease 0.2s both;
+  font-size: 16px; line-height: 1.8; color: var(--muted); font-weight: 300;
+  margin-bottom: 40px; max-width: 480px; animation: fadeSlideUp 0.8s ease 0.2s both;
 }
 
-.hero-actions {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 52px;
-  animation: fadeSlideUp 0.8s ease 0.3s both;
-}
-
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 52px; animation: fadeSlideUp 0.8s ease 0.3s both; }
 .btn-fill {
-  background: var(--dark);
-  color: white;
-  padding: 16px 36px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  background: var(--dark); color: white; padding: 16px 36px; border-radius: 4px;
+  text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;
 }
-.btn-fill:hover {
-  background: var(--rose);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(28,15,10,0.25);
-}
+.btn-fill:hover { background: var(--rose); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(28,15,10,0.25); }
 
 .btn-outline {
-  background: transparent;
-  color: var(--dark);
-  padding: 16px 36px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border: 1.5px solid var(--dark);
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  background: transparent; color: var(--dark); padding: 16px 36px; border-radius: 4px;
+  text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; border: 1.5px solid var(--dark); transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 10px;
 }
-.btn-outline:hover {
-  background: var(--dark);
-  color: white;
-}
+.btn-outline:hover { background: var(--dark); color: white; }
 
-.hero-trust {
-  display: flex;
-  gap: 36px;
-  animation: fadeSlideUp 0.8s ease 0.4s both;
-}
-.trust-item {}
-.trust-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  font-weight: 600;
-  color: var(--rose);
-  display: block;
-  line-height: 1;
-}
-.trust-label {
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 4px;
-}
-
-/* Hero Right — Product Showcase */
-.hero-right {
-  position: relative;
-  z-index: 2;
-  animation: fadeSlideUp 1s ease 0.2s both;
-}
-
-.hero-showcase {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.showcase-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(28,15,10,0.08);
-  transition: transform 0.4s, box-shadow 0.4s;
-  cursor: pointer;
-}
-.showcase-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(28,15,10,0.14);
-}
-.showcase-card:nth-child(2) { margin-top: 32px; }
-
-.showcase-img {
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
-  background: var(--warm);
-  position: relative;
-}
-
-.showcase-tag {
-  position: absolute;
-  top: 10px; left: 10px;
-  background: var(--rose);
-  color: white;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 3px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.showcase-info { padding: 14px 16px; }
-.showcase-name {
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-.showcase-price {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--rose);
-}
-.showcase-rating {
-  font-size: 11px;
-  color: var(--gold);
-  margin-bottom: 4px;
-}
-
-/* Floating tag */
-.float-tag {
-  position: absolute;
-  background: var(--dark);
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  animation: float 4s ease-in-out infinite;
-  box-shadow: 0 8px 24px rgba(28,15,10,0.2);
-  z-index: 3;
-  white-space: nowrap;
-}
-.float-tag-1 { bottom: -20px; left: -20px; animation-delay: 0s; }
-.float-tag-2 { top: -10px; right: -10px; animation-delay: 2s; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.hero-trust { display: flex; gap: 36px; animation: fadeSlideUp 0.8s ease 0.4s both; }
+.trust-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; color: var(--rose); display: block; line-height: 1; }
+.trust-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
 /* ===== MARQUEE ===== */
-.marquee-wrap {
-  background: var(--dark);
-  padding: 16px 0;
-  overflow: hidden;
-  white-space: nowrap;
-}
+.marquee-wrap { background: var(--dark); padding: 16px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
+.marquee-item { display: inline-flex; align-items: center; gap: 16px; padding: 0 40px; color: var(--blush); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+.marquee-dot { width: 4px; height: 4px; background: var(--rose); border-radius: 50%; flex-shrink: 0; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-.marquee-track {
-  display: inline-flex;
-  gap: 0;
-  animation: marquee 20s linear infinite;
-}
-
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  padding: 0 40px;
-  color: var(--blush);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.marquee-dot {
-  width: 4px; height: 4px;
-  background: var(--rose);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ===== CATEGORIES / DYNAMIC FILTER SYSTEM ===== */
+/* ===== CATEGORIES ===== */
 .section-wrap { padding: 80px 40px; }
-
-.section-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.section-meta { }
-.section-eyebrow {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 400;
-  line-height: 1.15;
-}
+.section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+.section-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; line-height: 1.15; }
 .section-title em { font-style: italic; color: var(--rose); }
 
-.view-all {
-  color: var(--rose);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: gap 0.3s;
-  white-space: nowrap;
+.cats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.cat-card {
+  background: white; border-radius: 16px; padding: 28px 16px; text-align: center;
+  cursor: pointer; transition: all 0.3s; border: 1.5px solid transparent;
+  text-decoration: none; color: var(--text); display: block;
 }
-.view-all:hover { gap: 14px; }
+.cat-card:hover, .cat-card.active { border-color: var(--rose); box-shadow: 0 8px 28px rgba(196,112,90,0.15); transform: translateY(-3px); }
+.cat-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.cat-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
 
-/* Filter Container Styling from Second Code */
-.filter-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-.filter-card {
-  background: white;
-  border: 1px solid rgba(196,112,90,0.15);
-  border-radius: 12px;
-  padding: 15px 20px;
-  min-width: 140px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.filter-card span { display: block; }
-.filter-card .f-title { font-weight: 600; font-size: 13px; color: var(--dark); margin-top: 5px; text-transform: uppercase; }
-.filter-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-.filter-card.active { border: 2px solid var(--rose); background: var(--warm); }
+/* ===== PRODUCTS GRID ===== */
+.products-section { padding: 0 40px 80px; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
 
-/* ===== PRODUCT GRID (CARDS) ===== */
-#card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 30px;
-  padding: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+.product-card { background: white; border-radius: 16px; overflow: hidden; transition: all 0.35s; position: relative; }
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 24px 56px rgba(28,15,10,0.12); }
 
-.card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.35s;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-}
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(28,15,10,0.1);
-}
+.product-img-wrap { height: 240px; background: var(--warm); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.product-card:hover .product-img { transform: scale(1.05); }
 
-.image-section {
-  height: 280px;
-  background: var(--warm);
-  overflow: hidden;
-}
-.product-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s;
-}
-.card:hover .product-img { transform: scale(1.05); }
+.p-body { padding: 20px; }
+.p-category { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
+.p-name { font-size: 15px; font-weight: 500; line-height: 1.45; margin-bottom: 10px; color: var(--dark); height: 44px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-.content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-.category {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-.title {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--dark);
-  margin-bottom: 12px;
-  height: 44px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.4;
-}
-.reviews { font-size: 12px; color: var(--muted); margin-bottom: 15px; }
-.stars { color: var(--gold); margin-right: 5px; }
+.p-stars { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+.p-stars .stars { color: var(--gold); font-size: 13px; }
+.p-stars .count { font-size: 12px; color: var(--muted); }
 
-.card-footer {
-  border-top: 1px solid var(--warm);
-  padding-top: 15px;
-  margin-top: auto;
+.p-footer { display: flex; flex-direction: column; padding-top: 14px; border-top: 1px solid var(--warm); gap: 12px; }
+.price-row { display: flex; align-items: baseline; gap: 8px; }
+.p-price { font-size: 22px; font-weight: 600; color: var(--rose); }
+.p-old { font-size: 13px; color: #bbb; text-decoration: line-through; }
+.p-save { font-size: 11px; color: #2E7D32; font-weight: 600; margin-top: 2px; }
+
+.p-btn {
+  background: var(--dark); color: white; padding: 12px; border-radius: 4px;
+  text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; transition: all 0.3s; text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-.price-box { margin-bottom: 15px; }
-.current { font-size: 22px; font-weight: 700; color: var(--rose); }
-.old { font-size: 14px; color: #bbb; text-decoration: line-through; margin-left: 8px; }
-.discount-text { display: block; color: #2E7D32; font-size: 12px; font-weight: 600; margin-top: 4px; }
-
-.buy-btn {
-  background: var(--dark);
-  color: white;
-  border: none;
-  width: 100%;
-  padding: 14px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: 0.3s;
-}
-.buy-btn:hover { background: var(--rose); }
-
-/* ===== BENEFITS ===== */
-.benefits {
-  background: var(--warm);
-  padding: 60px 40px;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.benefit {
-  text-align: center;
-}
-
-.benefit-icon {
-  font-size: 36px;
-  margin-bottom: 14px;
-  display: block;
-}
-
-.benefit-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--dark);
-}
-
-.benefit-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-  font-weight: 300;
-}
-
-/* ===== NEWSLETTER ===== */
-.newsletter {
-  padding: 80px 40px;
-  text-align: center;
-  background: var(--ivory);
-  position: relative;
-  overflow: hidden;
-}
-
-.newsletter::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(232,196,176,0.2) 0%, transparent 65%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.newsletter-inner { position: relative; z-index: 1; }
-
-.nl-eyebrow {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-
-.nl-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 300;
-  margin-bottom: 14px;
-  line-height: 1.2;
-}
-.nl-title em { font-style: italic; color: var(--rose); }
-
-.nl-desc { color: var(--muted); font-size: 15px; margin-bottom: 36px; font-weight: 300; }
-
-.nl-form {
-  display: flex;
-  max-width: 480px;
-  margin: 0 auto;
-  gap: 0;
-  box-shadow: 0 4px 24px rgba(28,15,10,0.1);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.nl-input {
-  flex: 1;
-  padding: 18px 24px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  font-family: 'Jost', sans-serif;
-  background: white;
-  color: var(--dark);
-}
-.nl-input::placeholder { color: var(--muted); }
-
-.nl-btn {
-  background: var(--rose);
-  color: white;
-  border: none;
-  padding: 18px 28px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: 'Jost', sans-serif;
-  transition: background 0.3s;
-  white-space: nowrap;
-}
-.nl-btn:hover { background: var(--deep-rose); }
-
-.nl-privacy {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 14px;
-}
+.p-btn:hover { background: var(--rose); }
 
 /* ===== FOOTER ===== */
-footer {
-  background: var(--dark);
-  color: rgba(255,255,255,0.6);
-  padding: 56px 40px 32px;
-}
-
-.footer-top {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 48px;
-}
-
-
-.footer-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 14px;
-  display: block;
-}
+footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 56px 40px 32px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: white; margin-bottom: 14px; display: block; }
 .footer-logo span { color: var(--blush); font-style: italic; }
-.footer-tagline {
-  font-size: 13px;
-  line-height: 1.7;
-  margin-bottom: 24px;
-  font-weight: 300;
-}
-
-.footer-social { display: flex; gap: 12px; }
-.social-link {
-  width: 38px; height: 38px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-  text-decoration: none;
-}
-.social-link:hover { background: var(--rose); }
-
-.footer-col h4 {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: white;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links a {
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 300;
-  transition: color 0.3s;
-}
-.footer-links a:hover { color: var(--blush); }
-
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.footer-copy { font-size: 12px; }
-.footer-disclaimer {
-  font-size: 11px;
-  max-width: 500px;
-  text-align: right;
-  opacity: 0.5;
-  line-height: 1.5;
-}
-
-/* ===== MOBILE MENU ===== */
-.mobile-menu {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--ivory);
-  z-index: 999;
-  flex-direction: column;
-  padding: 100px 40px 40px;
-  gap: 24px;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  font-weight: 400;
-  color: var(--dark);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-.mobile-menu a:hover { color: var(--rose); }
-.menu-close {
-  position: absolute;
-  top: 28px; right: 32px;
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: var(--dark);
-}
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
-
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .nav-center, .nav-cta { display: none; }
   .hamburger { display: flex; }
-
-  .hero {
-    grid-template-columns: 1fr;
-    padding: 40px 20px 60px;
-    min-height: auto;
-  }
-  .hero-right { display: none; }
-  .hero-trust { gap: 20px; }
-
-  .section-wrap, .products-section { padding-left: 20px; padding-right: 20px; }
-  
-  #card-container { grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 15px; }
-  .image-section { height: 180px; }
-  .filter-container { display: grid; grid-template-columns: repeat(2, 1fr); }
-  .filter-card { min-width: auto; }
-
-  .newsletter { padding: 60px 20px; }
-  .nl-form { flex-direction: column; box-shadow: none; border-radius: 0; }
-  .nl-input, .nl-btn { border-radius: 4px; }
-
-  footer { padding: 40px 20px 24px; }
-  .footer-top { grid-template-columns: 1fr; gap: 32px; }
-  .footer-disclaimer { text-align: left; max-width: 100%; }
+  .hero { grid-template-columns: 1fr; padding: 40px 20px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+  .section-wrap, .products-section { padding: 40px 20px; }
+  .cats-grid { grid-template-columns: repeat(3, 1fr); }
 }
-
 @media (max-width: 480px) {
-  #card-container { grid-template-columns: 1fr; }
-  .benefits-grid { grid-template-columns: 1fr; }
-  .hero-actions { flex-direction: column; }
-  .btn-fill, .btn-outline { width: 100%; justify-content: center; }
+  .products-grid { grid-template-columns: 1fr; }
+  .cats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--ivory); }
-::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--rose); }
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
-<div class="announcement">
-  ✨ Best Amazon Skincare Deals · 100% Tested & Reviewed
-</div>
+<div class="announcement">✨ Free Shipping on Amazon Orders Over $25 · 100% Tested & Reviewed</div>
 
 <nav>
   <a href="#" class="logo">Serum<span>Holic</span></a>
-
   <ul class="nav-center">
-    <li><a href="#skincare">Categories</a></li>
-    <li><a href="#products">Shop</a></li>
+    <li><a href="#skincare">Skincare</a></li>
+    <li><a href="#healthcare">Healthcare</a></li>
+    <li><a href="#tools">Tools</a></li>
     <li><a href="#deals">Best Deals</a></li>
-    <li><a href="#about">About</a></li>
   </ul>
-
   <div class="nav-right">
-    <button class="search-btn">🔍</button>
     <a href="#products" class="nav-cta">Shop Now</a>
-    <button class="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <button class="menu-close" onclick="toggleMenu()">✕</button>
-  <a href="#skincare" onclick="toggleMenu()">Categories</a>
-  <a href="#products" onclick="toggleMenu()">Shop</a>
-  <a href="#deals" onclick="toggleMenu()">Best Deals</a>
-  <a href="#about" onclick="toggleMenu()">About</a>
-</div>
-
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-badge">
-      <span>✦</span>
-      Handpicked Amazon Skincare Deals
-    </div>
-
-    <h1 class="hero-title">
-      Glow Starts<br>
-      With the <em>Right</em><br>
-      <strong>Serum</strong>
-    </h1>
-
-    <p class="hero-desc">
-      We test, review & handpick the best skincare serums and beauty products from Amazon — so you don't have to. Real results, real prices.
-    </p>
-
+    <div class="hero-badge"><span>✦</span> Handpicked Amazon Skincare Deals</div>
+    <h1 class="hero-title">Glow Starts<br>With the <em>Right</em><br><strong>Serum</strong></h1>
+    <p class="hero-desc">We test, review & handpick the best skincare products from Amazon so you don't have to.</p>
     <div class="hero-actions">
-      <a href="#products" class="btn-fill">
-        Shop Top Picks
-        <span>→</span>
-      </a>
-      <a href="#about" class="btn-outline">
-        How It Works
-      </a>
+      <a href="#products" class="btn-fill">Shop Top Picks <span>→</span></a>
     </div>
-
     <div class="hero-trust">
-      <div class="trust-item">
-        <span class="trust-num">500+</span>
-        <div class="trust-label">Products Reviewed</div>
-      </div>
-      <div class="trust-item">
-        <span class="trust-num">48K+</span>
-        <div class="trust-label">Happy Shoppers</div>
-      </div>
-      <div class="trust-item">
-        <span class="trust-num">4.9★</span>
-        <div class="trust-label">Avg. Rating</div>
-      </div>
+      <div class="trust-item"><span class="trust-num">500+</span><div class="trust-label">Reviewed</div></div>
+      <div class="trust-item"><span class="trust-num">4.9★</span><div class="trust-label">Avg. Rating</div></div>
     </div>
   </div>
 </section>
@@ -1172,18 +492,8 @@ footer {
     <div class="marquee-item"><span class="marquee-dot"></span> Vitamin C Serums</div>
     <div class="marquee-item"><span class="marquee-dot"></span> Retinol Creams</div>
     <div class="marquee-item"><span class="marquee-dot"></span> Niacinamide</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Collagen Boost</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Gua Sha Tools</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> SPF Moisturizers</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Eye Creams</div>
     <div class="marquee-item"><span class="marquee-dot"></span> Hyaluronic Acid</div>
     <div class="marquee-item"><span class="marquee-dot"></span> Vitamin C Serums</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Retinol Creams</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Niacinamide</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Collagen Boost</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Gua Sha Tools</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> SPF Moisturizers</div>
-    <div class="marquee-item"><span class="marquee-dot"></span> Eye Creams</div>
   </div>
 </div>
 
@@ -1193,240 +503,130 @@ footer {
       <div class="section-eyebrow">Browse by Category</div>
       <h2 class="section-title">Find Your <em>Perfect</em> Match</h2>
     </div>
-    <a href="#" class="view-all">View All <span>→</span></a>
   </div>
-
-  <div class="filter-container">
-    <div class="filter-card active" onclick="filterItems('Serum', this)">
-      <span style="font-size: 24px;">💧</span>
-      <span class="f-title">Serums</span>
+  <div class="cats-grid">
+    <div class="cat-card active" onclick="filterItems('Serum', this)">
+      <span class="cat-icon">💧</span>
+      <span class="cat-name">Serums</span>
     </div>
-    <div class="filter-card" onclick="filterItems('Moisturizer', this)">
-      <span style="font-size: 24px;">🧴</span>
-      <span class="f-title">Moisturizers</span>
+    <div class="cat-card" onclick="filterItems('Moisturizer', this)">
+      <span class="cat-icon">🧴</span>
+      <span class="cat-name">Moisturizers</span>
     </div>
-    <div class="filter-card" onclick="filterItems('SPF', this)">
-      <span style="font-size: 24px;">☀️</span>
-      <span class="f-title">Sun Care</span>
+    <div class="cat-card" onclick="filterItems('SPF', this)">
+      <span class="cat-icon">☀️</span>
+      <span class="cat-name">Sun Care</span>
     </div>
-    <div class="filter-card" onclick="filterItems('Eye Cream', this)">
-      <span style="font-size: 24px;">👁️</span>
-      <span class="f-title">Eye Creams</span>
+    <div class="cat-card" onclick="filterItems('Eye Cream', this)">
+      <span class="cat-icon">👁️</span>
+      <span class="cat-name">Eye Creams</span>
     </div>
-    <div class="filter-card" onclick="filterItems('Supplement', this)">
-      <span style="font-size: 24px;">💊</span>
-      <span class="f-title">Supplements</span>
+    <div class="cat-card" onclick="filterItems('Supplement', this)">
+      <span class="cat-icon">💊</span>
+      <span class="cat-name">Supplements</span>
     </div>
-    <div class="filter-card" onclick="filterItems('Tool', this)">
-      <span style="font-size: 24px;">🪄</span>
-      <span class="f-title">Beauty Tools</span>
+    <div class="cat-card" onclick="filterItems('Tool', this)">
+      <span class="cat-icon">🪄</span>
+      <span class="cat-name">Tools</span>
     </div>
   </div>
 </section>
 
-<main id="card-container" role="main">
-  </main>
-
-<section class="benefits" id="about">
-  <div class="benefits-grid">
-    <div class="benefit">
-      <span class="benefit-icon">🔬</span>
-      <div class="benefit-title">Expert Reviewed</div>
-      <div class="benefit-desc">Every product is tested and verified before we recommend it to you.</div>
-    </div>
-    <div class="benefit">
-      <span class="benefit-icon">✅</span>
-      <div class="benefit-title">Amazon Verified</div>
-      <div class="benefit-desc">All links go directly to Amazon with thousands of verified reviews.</div>
-    </div>
-    <div class="benefit">
-      <span class="benefit-icon">💰</span>
-      <div class="benefit-title">Best Price Alert</div>
-      <div class="benefit-desc">We track prices and only show you the best deals available today.</div>
-    </div>
-    <div class="benefit">
-      <span class="benefit-icon">🚀</span>
-      <div class="benefit-title">Fast Delivery</div>
-      <div class="benefit-desc">All products available with Amazon Prime — delivered in 1-2 days.</div>
+<section class="products-section" id="products">
+  <div class="section-header">
+    <div class="section-meta">
+      <div class="section-eyebrow">Editor's Selection</div>
+      <h2 class="section-title">Featured <em>Deals</em></h2>
     </div>
   </div>
-</section>
-
-
-<section class="newsletter">
-  <div class="newsletter-inner">
-    <div class="nl-eyebrow">Join the Community</div>
-    <h2 class="nl-title">Get <em>Weekly</em> Skincare Deals</h2>
-    <p class="nl-desc">No spam. Just the best Amazon skincare deals delivered to your inbox every week.</p>
-    <form class="nl-form" onsubmit="handleSubmit(event)">
-      <input type="email" class="nl-input" placeholder="Enter your email address..." required>
-      <button type="submit" class="nl-btn">Subscribe</button>
-    </form>
-    <p class="nl-privacy">🔒 We respect your privacy. Unsubscribe anytime.</p>
-  </div>
+  <div id="products-grid" class="products-grid">
+    </div>
 </section>
 
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="footer-logo">Serum<span>Holic</span></span>
-      <p class="footer-tagline">Your go-to source for the best skincare & health products on Amazon. Handpicked, tested, and loved by thousands.</p>
-      <div class="footer-social">
-        <a href="#" class="social-link">📸</a>
-        <a href="#" class="social-link">🎵</a>
-        <a href="#" class="social-link">📌</a>
-        <a href="#" class="social-link">▶️</a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h4>Shop</h4>
-      <ul class="footer-links">
-        <li><a href="#">All Serums</a></li>
-        <li><a href="#">Moisturizers</a></li>
-        <li><a href="#">Eye Creams</a></li>
-        <li><a href="#">Supplements</a></li>
-        <li><a href="#">Beauty Tools</a></li>
-        <li><a href="#">Best Sellers</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Discover</h4>
-      <ul class="footer-links">
-        <li><a href="#">Skincare Guides</a></li>
-        <li><a href="#">Ingredient 101</a></li>
-        <li><a href="#">Before & After</a></li>
-        <li><a href="#">Weekly Deals</a></li>
-        <li><a href="#">New Arrivals</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul class="footer-links">
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Affiliate Disclosure</a></li>
-        <li><a href="#">Terms of Use</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 SerumHolic.com · All Rights Reserved</div>
-    <div class="footer-disclaimer">
-      SerumHolic is a participant in the Amazon Services LLC Associates Program. We earn a commission when you purchase through our links at no extra cost to you.
-    </div>
+  <div class="footer-brand">
+    <span class="footer-logo">Serum<span>Holic</span></span>
+    <p>© 2025 SerumHolic. Participant in Amazon Associates Program.</p>
   </div>
 </footer>
 
 <script>
-// --- UI Functions ---
-function toggleMenu() {
-  const menu = document.getElementById('mobileMenu');
-  menu.classList.toggle('open');
-}
-
-function handleSubmit(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('.nl-btn');
-  btn.textContent = '✓ Subscribed!';
-  btn.style.background = '#2E7D32';
-  e.target.querySelector('.nl-input').value = '';
-}
-
-// --- CSV Fetching & Rendering Logic ---
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
 let allProducts = [];
-
-const convertDriveLink = (url) => {
-    if (!url) return 'https://via.placeholder.com/300';
-    const id = url.match(/[-\w]{25,}/);
-    if (id) return `https://lh3.googleusercontent.com/d/${id[0]}`;
-    return url;
-};
 
 async function fetchProducts() {
     try {
         const response = await fetch(SHEET_CSV_URL);
         const text = await response.text();
         allProducts = parseCSV(text);
-        const initial = allProducts.filter(p => p.c.toLowerCase().includes('serum'));
-        renderBatch(initial);
+        // Initial load (Serums)
+        filterItems('Serum', document.querySelector('.cat-card.active'));
     } catch (e) {
-        console.error("Error fetching data:", e);
-        document.getElementById('card-container').innerHTML = "<p style='text-align:center; padding: 50px;'>Unable to load products. Please check connection.</p>";
+        console.error("CSV Error:", e);
     }
 }
 
 function parseCSV(text) {
     const rows = text.split('\n');
-    const items = [];
-    for (let i = 1; i < rows.length; i++) {
-        const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    return rows.slice(1).map(row => {
+        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
         if (cols.length >= 9) {
-            items.push({
-                c: cols[0].replace(/"/g, '').trim(),
-                s: cols[1].replace(/"/g, '').trim(),
-                t: cols[2].replace(/"/g, ''),
-                r: cols[3],
-                p: cols[5],
-                o: cols[6],
-                d: cols[7],
-                l: cols[8],
-                q: cols[9] ? cols[9].replace(/"/g, '').trim() : '#'
-            });
+            return {
+                cat: cols[0].replace(/"/g, '').trim(),
+                sub: cols[1].replace(/"/g, '').trim(),
+                title: cols[2].replace(/"/g, ''),
+                rev: cols[3],
+                price: cols[5],
+                old: cols[6],
+                save: cols[7],
+                img: cols[8],
+                link: cols[9] ? cols[9].replace(/"/g, '').trim() : '#'
+            };
         }
-    }
-    return items;
+    }).filter(Boolean);
 }
 
-function filterItems(cat, el) {
-    document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    const filtered = allProducts.filter(p => p.c.toLowerCase().includes(cat.toLowerCase()));
-    renderBatch(filtered);
+function filterItems(category, element) {
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+    element.classList.add('active');
+    const filtered = allProducts.filter(p => p.cat.toLowerCase().includes(category.toLowerCase()));
+    renderProducts(filtered);
 }
 
-function renderBatch(items) {
-    const container = document.getElementById('card-container');
-    if(items.length === 0) {
-        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 50px;'>No products found in this category.</p>";
-        return;
-    }
-    
-    const html = items.map(p => `
-        <article class="card">
-            <div class="image-section">
-                <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy">
+function renderProducts(items) {
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = items.map(p => `
+        <article class="product-card">
+            <div class="product-img-wrap">
+                <img src="${p.img}" alt="${p.title}" class="product-img" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
             </div>
-            <div class="content">
-                <span class="category">${p.c} • ${p.s}</span>
-                <h2 class="title">${p.t}</h2>
-                <div class="reviews">
+            <div class="p-body">
+                <span class="p-category">${p.cat} • ${p.sub}</span>
+                <h2 class="p-name">${p.title}</h2>
+                <div class="p-stars">
                     <span class="stars">★★★★★</span>
-                    <span>(${p.r} Reviews)</span>
+                    <span class="count">(${p.rev} Reviews)</span>
                 </div>
-                <div class="card-footer">
+                <div class="p-footer">
                     <div class="price-box">
-                        <span class="current">$${p.p}</span>
-                        <span class="old">$${p.o}</span>
-                        <span class="discount-text">Save ${p.d} on Amazon</span>
+                        <div class="price-row">
+                            <span class="p-price">$${p.price}</span>
+                            <span class="p-old">$${p.old}</span>
+                        </div>
+                        <span class="p-save">Save ${p.save} on Amazon</span>
                     </div>
-                    <button class="buy-btn" onclick="window.open('${p.q}', '_blank')">
+                    <a href="${p.link}" target="_blank" class="p-btn">
                         <i class="fas fa-shopping-cart"></i> Shop on Amazon
-                    </button>
+                    </a>
                 </div>
             </div>
         </article>
     `).join('');
-    container.innerHTML = html;
 }
+
+function toggleMenu() { /* Mobile menu functionality */ }
 
 fetchProducts();
 </script>
-
 </body>
 </html>
