@@ -163,7 +163,7 @@
                         o: cols[6],
                         d: cols[7],
                         s: cols[1],
-                        t: cols[4],
+                        i: cols[4],
                         q: cols[10],
                         l: cols[8]
                     });
@@ -193,7 +193,7 @@
                         <div class="reviews">
                             <span class="stars" aria-hidden="true">★★★★★</span>
                             <span>(${p.r}) <span class="sr-only">reviews</span>Reviews</span>
-                            <span>(${p.t}) </span>
+                            <span>(${p.i}) </span>
                         </div>
                         <div class="card-footer">
                             <div class="price-box">
@@ -201,8 +201,8 @@
                                 <span class="old">$${p.o}</span>
                                 <span class="discount-text">Save ${p.d}</span>
                             </div>
-                            <button class="buy-btn" href="${p.q}">
-                                <i class="fas fa-shopping-cart"></i> ADD TO CARTS
+                            <button class="buy-btn">
+                             <a href"${p.q}"><i class="fas fa-shopping-cart"></i> ADD TO CARTS</a>
                             </button>                           
                           
                         </div>
