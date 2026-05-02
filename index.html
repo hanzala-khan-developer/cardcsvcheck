@@ -98,40 +98,10 @@
     </style>
 </head>
 <body>
-
-    <div class="filter-wrapper">
-        <div class="filter-container">
-            <div class="filter-card active" onclick="filterItems('Serum', this),('Serums', this),('serum', this)">
-                <span style="font-size: 24px;">💧</span>
-                <span class="f-title">Serums</span>
-            </div>
-            <div class="filter-card" onclick="filterItems('Moisturizer', this),('Moisturizers', this),('moisturizers', this),('moisturizer', this)">
-                <span style="font-size: 24px;">🧴</span>
-                <span class="f-title">Moisturizers</span>
-            </div>
-            <div class="filter-card" onclick="filterItems('SPF', this)">
-                <span style="font-size: 24px;">☀️</span>
-                <span class="f-title">SPF & Sun Care</span>
-            </div>
-            <div class="filter-card" onclick="filterItems('Eye Cream', this)">
-                <span style="font-size: 24px;">👁️</span>
-                <span class="f-title">Eye Creams</span>
-            </div>
-            <div class="filter-card" onclick="filterItems('Supplement', this),('Supplements', this),('supplement', this),('supplements', this)">
-                <span style="font-size: 24px;">💊</span>
-                <span class="f-title">Supplements</span>
-            </div>
-            <div class="filter-card" onclick="filterItems('Tool', this),('Beauty tool', this),('tool', this),('tools', this),('Tools', this)">
-                <span style="font-size: 24px;">🪄</span>
-                <span class="f-title">Beauty Tools</span>
-            </div>
-        </div>
-    </div>
-
     <main id="card-container" role="main"></main>
 
     <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9rUUuChRO30Uik6iNqKz4AfuAAdB7tNtt-qAoEKefQ-3mq4ke3EM1mrXMAsI4HNPwDEA2Dx1xYlQd/pub?gid=0&single=true&output=csv';
         let allProducts = [];
 
         const convertDriveLink = (url) => {
@@ -157,14 +127,10 @@
                 if (cols.length >= 9) {
                     items.push({
                         c: cols[0].replace(/"/g, '').trim(),
-                        t: cols[2].replace(/"/g, ''),
-                        r: cols[3],
-                        p: cols[5],
-                        o: cols[6],
-                        d: cols[7],
-                        s: cols[1],
-                        q: cols[9] ? cols[9].replace(/"/g, '').trim() : '#',
-                        l: cols[8]
+                        t: cols[1].replace(/"/g, ''),
+                        d: cols[2],
+                        s: cols[3],
+                        l: cols[4]
                     });
                 }
             }
@@ -182,31 +148,22 @@
             const container = document.getElementById('card-container');
             const html = items.map(p => `
                 <article class="card">
-                    <div class="image-section">
-                        <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy" width="300" height="300">
+                     <div class="col-md-4">
+                <div class="blog-card">
+                    <div class="blog-img-container">
+                        <span class="category-tag">${p.c}</span>
+                    <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy" width="300" height="300">
                     </div>
-                    <div class="content">
-                        <span class="category">${p.c} : <span class="sub_category">${p.s}</span></span>
-           
-                        <h2 class="title">${p.t}</h2>
-                        <div class="reviews">
-                            <span class="stars" aria-hidden="true">★★★★★</span>
-                            <span>(${p.r}) <span class="sr-only">reviews</span>Reviews</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="price-box">
-                                <span class="current">$${p.p}</span>
-                                <span class="old">$${p.o}</span>
-                                <span class="discount-text">Save ${p.d}</span>
-                            </div>
-                            
-                           <button class="buy-btn" onclick="if('${p.q}' !== '#') { window.open('${p.q}', '_blank'); } else { alert('PLEASE CHECK YOUR INTERNET'); }">
-                              <i class="fas fa-shopping-cart"></i> ADD TO CARTS
-                           </button>                      
-                          
-                        </div>
+                    <div class="blog-content">
+                        <span class="blog-date">${p.t}</span>
+                        <a href="#" class="blog-title">${p.s}</a>
+                        <p class="small text-muted">${p.d}</p>
+                        <a href="#" class="read-more">Read Full Article</a>
                     </div>
+                </div>
+            </div>
                 </article>
+
             `).join('');
             container.innerHTML = html;
         }
