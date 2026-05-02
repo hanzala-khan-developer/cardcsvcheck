@@ -128,7 +128,7 @@
     </style>
 </head>
 <body>
-    <main id="card-container" role="main"></main>
+    <main id="container" role="main"></main>
 
     <script>
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9rUUuChRO30Uik6iNqKz4AfuAAdB7tNtt-qAoEKefQ-3mq4ke3EM1mrXMAsI4HNPwDEA2Dx1xYlQd/pub?gid=0&single=true&output=csv';
@@ -175,7 +175,7 @@
         }
 
         function renderBatch(items) {
-            const container = document.getElementById('card-container');
+            const container = document.getElementById('container');
             const html = items.map(p => `
                 <article class="card">
                      <div class="col-md-4">
