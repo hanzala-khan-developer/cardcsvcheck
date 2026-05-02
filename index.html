@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extreme Performance Shop</title>
-    <meta name="description" content="High performance catalog">
-
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-
+    <title>Blog - SerumHolic</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fdf8f4; /* Same as your home page background */
-            --primary-text: #2d1b14; /* Dark brown from image_be5887.png */
-            --accent-color: #c08267; /* Tan/Rose color from logo */
+            --bg-color: #fdf8f4;
+            --primary-text: #2d1b14;
+            --accent-color: #c08267;
             --white: #ffffff;
         }
 
@@ -23,7 +20,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Hero Section */
         .blog-header {
             padding: 60px 0;
             text-align: center;
@@ -40,7 +36,7 @@
             font-weight: 400;
         }
 
-        /* Blog Card Styling - Matching image_be58c1.jpg style */
+        /* Blog Card Styling */
         .blog-card {
             background: var(--white);
             border: none;
@@ -77,6 +73,7 @@
             font-size: 0.75rem;
             font-weight: 600;
             color: var(--accent-color);
+            z-index: 2;
         }
 
         .blog-content {
@@ -110,34 +107,33 @@
             text-decoration: underline;
             font-size: 0.9rem;
         }
-
-        /* Pagination Styling */
-        .pagination .page-link {
-            color: var(--primary-text);
-            border: none;
-            background: transparent;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
     </style>
 </head>
 <body>
-    <main id="container" role="main"></main>
+
+    <div class="container">
+        <!-- Blog Hero -->
+        <header class="blog-header">
+            <p style="letter-spacing: 2px; font-weight: 600; font-size: 0.8rem;">OUR REVIEWS & TIPS</p>
+            <h1>Skincare <span>Insights</span></h1>
+        </header>
+
+        <!-- Blog Grid Container -->
+        <!-- Yahan par Row class hai jo cards ko hold karegi -->
+        <div id="blog-container" class="row g-4 mb-5">
+            <!-- Data yahan JavaScript se load hoga -->
+            <div class="text-center">Loading insights...</div>
+        </div>
+    </div>
 
     <script>
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9rUUuChRO30Uik6iNqKz4AfuAAdB7tNtt-qAoEKefQ-3mq4ke3EM1mrXMAsI4HNPwDEA2Dx1xYlQd/pub?gid=0&single=true&output=csv';
         let allProducts = [];
 
         const convertDriveLink = (url) => {
-            if (!url) return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            if (!url) return 'https://via.placeholder.com/400x250';
             const id = url.match(/[-\w]{25,}/);
-            return id ? `https://lh3.googleusercontent.com/u/0/d/${id[0]}=w300-h300-p` : url;
+            return id ? `https://lh3.googleusercontent.com/u/0/d/${id[0]}=w600-h400-p` : url;
         };
 
         async function fetchProducts() {
@@ -146,55 +142,52 @@
                 const text = await response.text();
                 allProducts = parseCSV(text);
                 renderBatch(allProducts);
-            } catch (e) { console.error("PLEASE CHECK YOUR INTERNET"); }
+            } catch (e) { 
+                console.error("Error fetching data", e);
+                document.getElementById('blog-container').innerHTML = "Check connection.";
+            }
         }
 
         function parseCSV(text) {
             const rows = text.split('\n');
             const items = [];
             for (let i = 1; i < rows.length; i++) {
+                // Regex to handle commas inside quotes
                 const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (cols.length >= 9) {
+                if (cols.length >= 5) {
                     items.push({
-                        c: cols[0].replace(/"/g, '').trim(),
-                        t: cols[1].replace(/"/g, ''),
-                        d: cols[2],
-                        s: cols[3],
-                        l: cols[4]
+                        c: cols[0]?.replace(/"/g, '').trim(), // Category
+                        t: cols[1]?.replace(/"/g, ''),       // Date/Title
+                        d: cols[2]?.replace(/"/g, ''),       // Description
+                        s: cols[3]?.replace(/"/g, ''),       // Subtitle/Heading
+                        l: cols[4]?.replace(/"/g, '').trim() // Image Link
                     });
                 }
             }
             return items;
         }
 
-        function filterItems(cat, el) {
-            document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            const filtered = allProducts.filter(p => p.c.toLowerCase().includes(cat.toLowerCase()));
-            renderBatch(filtered);
-        }
-
         function renderBatch(items) {
-            const container = document.getElementById('container');
+            const container = document.getElementById('blog-container');
+            
+            // col-12 (Mobile: 1 card), col-md-4 (Laptop: 3 cards)
             const html = items.map(p => `
-                <article class="card">
-                     <div class="col-md-4">
-                <div class="blog-card">
-                    <div class="blog-img-container">
-                        <span class="category-tag">${p.c}</span>
-                    <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy" width="300" height="300">
-                    </div>
-                    <div class="blog-content">
-                        <span class="blog-date">${p.t}</span>
-                        <a href="#" class="blog-title">${p.s}</a>
-                        <p class="small text-muted">${p.d}</p>
-                        <a href="#" class="read-more">Read Full Article</a>
+                <div class="col-12 col-md-4">
+                    <div class="blog-card">
+                        <div class="blog-img-container">
+                            <span class="category-tag">${p.c}</span>
+                            <img src="${convertDriveLink(p.l)}" alt="${p.s}" loading="lazy">
+                        </div>
+                        <div class="blog-content">
+                            <span class="blog-date">${p.t}</span>
+                            <a href="#" class="blog-title">${p.s}</a>
+                            <p class="small text-muted">${p.d}</p>
+                            <a href="#" class="read-more">Read Full Article</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-                </article>
-
             `).join('');
+            
             container.innerHTML = html;
         }
 
@@ -202,5 +195,3 @@
     </script>
 </body>
 </html>
-
-
