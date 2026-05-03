@@ -107,20 +107,19 @@
             // Yaad rakhein Template mein {{to_email}} likhna zaroori hai
             const templateParams = {
                 to_email: fetchedEmail,
-                message: "Aapka shukriya subscribe karne ke liye!"
+                message: "Thankyou for subscribtion"
             };
 
             emailjs.send('service_azuyt86', 'template_h7f1d73', templateParams)
                 .then(function() {
                     status.style.color = "green";
-                    status.innerText = "Zabardast! Email fetch ho gayi aur " + fetchedEmail + " par msg chala gaya.";
-                    btn.innerText = 'Success!';
+           4
                     document.getElementById('sub-form').reset();
                 }, function(error) {
                     status.style.color = "red";
-                    status.innerText = "Kuch masla hua hai. Console check karein.";
+                    status.innerText = "GOOD JOOB👍";
                     console.log('FAILED...', error);
-                    btn.innerText = 'Try Again';
+                    btn.innerText = 'INTERNET ISSUE😴';
                     btn.disabled = false;
                 });
         });
