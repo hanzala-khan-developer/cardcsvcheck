@@ -3,92 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Subscription</title>
-    
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
-    <style>
-        /* Modern & Clean CSS */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-        }
-
-        .subscription-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 350px;
-        }
-
-        h2 { color: #333; margin-bottom: 10px; }
-        p { color: #666; font-size: 14px; margin-bottom: 20px; }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        input[type="email"] {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        input[type="email"]:focus {
-            border-color: #007bff;
-        }
-
-        button {
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #status-msg {
-            margin-top: 15px;
-            font-size: 13px;
-        }
-    </style>
+    <title> Serum Holic</title>
+    <link rel="icon" type="image/x-icon" href="insta.jpg">
+    <link rel="stylesheet" href="file:///C:/Users/M.Hanzala%20khan/Documents/GitHub/merge/merge.css">
 </head>
-<body>
+<style>
+    /* Search Bar Design */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 30px;
+    padding: 5px 15px;
+    margin: 0 10px;
+}
+.search-wrapper input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 5px;
+    font-size: 14px;
+    width: 180px;
+}
+.search-icon-nav { font-size: 14px; color: #888; }
 
-    <div class="subscription-card">
-        <h2>Subscribe Karein!</h2>
-        <p>Apni email dalein taake hum aapko thank you bol sakein.</p>
-        
-        <form id="sub-form" class="input-group">
-            <input type="email" id="user-email" placeholder="Enter your email" required>
-            <button type="submit" id="btn-submit">Subscribe Now</button>
-        </form>
-        
-        <div id="status-msg"></div>
+/* Mobile View for Search */
+@media (max-width: 768px) {
+    nav { flex-wrap: wrap; }
+    .search-wrapper {
+        order: 3;
+        width: 100%;
+        margin: 0;
+
+    }
+    .search-wrapper input { width: 100%; }
+}
+</style>
+<body>
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo">Serum<span>Holic</span></a>
+
+  <!-- NAYA SEARCH FIELD -->
+  <div class="search-wrapper">
+    <input type="text" id="searchInput" placeholder="Search product name...">
+    <span class="search-icon-nav">🔍</span>
+  </div>
+
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+    // SEARCH FILTER LOGIC
+document.getElementById('searchInput').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    
+    // allProducts wahi array hai jo aapne fetchProducts mein fill kiya tha
+    const filtered = allProducts.filter(p => 
+        p.t.toLowerCase().includes(searchTerm) || 
+        p.c.toLowerCase().includes(searchTerm)
+    );
+
+    const container = document.getElementById('card-container');
+    
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center; width:100%; padding:50px; font-family:sans-serif;">
+                <h2 style="color:#888;">Oops! Product Not Found 🔍</h2>
+                <p>Try searching for something else like "Serum" or "Moisturizer"</p>
+            </div>`;
+    } else {
+        renderBatch(filtered);
+    }
+});
+</script>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About Us</a>
+  <a href="blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact Us</a>
+</div>
+
+  <!-- ANNOUNCEMENT -->
+<div class="announcement">
+  ✨ Free Shipping on Amazon Orders Over $25 · New Arrivals Every Week · 100% Tested & Reviewed
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span>✦</span>
+      Handpicked Amazon Skincare Deals
     </div>
 
+    <h1 class="hero-title">
+      Glow Starts<br>
+      With the <em>Right</em><br>
+      <strong>Serum</strong>
+    </h1>
+
+    <p class="hero-desc">
+      We test, review & handpick the best skincare serums and beauty products from Amazon — so you don't have to. Real results, real prices.
+    </p>
+
+    <div class="hero-actions">
+      <a href="top.html" class="btn-fill">
+        Top Rated Items
+        <span>→</span>
+      </a>
+      <a href="contact.html" class="btn-outline">
+        Contact
+      </a>
+    </div>
+
+    <div class="hero-trust">
+      <div class="trust-item">
+        <span class="trust-num">500+</span>
+        <div class="trust-label">Products Reviewed</div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-num">48K+</span>
+        <div class="trust-label">Happy Shoppers</div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-num">4.9★</span>
+        <div class="trust-label">Avg. Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span> Hyaluronic Acid</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Vitamin C Serums</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Retinol Creams</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Niacinamide</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Collagen Boost</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Gua Sha Tools</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> SPF Moisturizers</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Eye Creams</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Hyaluronic Acid</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Vitamin C Serums</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Retinol Creams</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Niacinamide</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Collagen Boost</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Gua Sha Tools</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> SPF Moisturizers</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Eye Creams</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section-wrap" id="skincare">
+  <div class="section-header">
+    <div class="section-meta">
+      <div class="section-eyebrow">Browse by Category</div>
+      <h2 class="section-title">Find Your <em>Perfect</em> Match</h2>
+    </div>
+  </div>
+ </section>
+
+   <div class="filter-wrapper">
+        <div class="filter-container">
+            <div class="filter-card active" onclick="filterItems('Serum', this),('Serums', this),('serum', this)">
+                <span style="font-size: 24px;">💧</span>
+                <span class="f-title">Serums</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Moisturizer', this),('Moisturizers', this),('moisturizers', this),('moisturizer', this)">
+                <span style="font-size: 24px;">🧴</span>
+                <span class="f-title">Moisturizers</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('SPF', this)">
+                <span style="font-size: 24px;">☀️</span>
+                <span class="f-title">SPF & Sun Care</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Eye Cream', this)">
+                <span style="font-size: 24px;">👁️</span>
+                <span class="f-title">Eye Creams</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Supplement', this),('Supplements', this),('supplement', this),('supplements', this)">
+                <span style="font-size: 24px;">💊</span>
+                <span class="f-title">Supplements</span>
+            </div>
+            <div class="filter-card" onclick="filterItems('Tool', this),('Beauty tool', this),('tool', this),('tools', this),('Tools', this)">
+                <span style="font-size: 24px;">🪄</span>
+                <span class="f-title">Beauty Tools</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="section-wrap" id="skincare">
+  <div class="section-header">
+    <div class="section-meta">
+      <h2 class="section-title">Your <em>Favourite</em> Items</h2>
+    </div>
+  </div>
+  </section>
+
+     <main id="card-container" role="main"></main>
+ <script>
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4F4cHIXkShYEw-O-OjTysIx1PZaMO2zyPPKXQdriCoOHhGysxvIPnqDLpvyo4oA26_krxGc7LkK0j/pub?gid=0&single=true&output=csv';
+        let allProducts = [];
+
+        const convertDriveLink = (url) => {
+            if (!url) return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            const id = url.match(/[-\w]{25,}/);
+            return id ? `https://lh3.googleusercontent.com/u/0/d/${id[0]}=w300-h300-p` : url;
+        };
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const text = await response.text();
+                allProducts = parseCSV(text);
+                renderBatch(allProducts);
+            } catch (e) { console.error("PLEASE CHECK YOUR INTERNET"); }
+        }
+
+        function parseCSV(text) {
+            const rows = text.split('\n');
+            const items = [];
+            for (let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (cols.length >= 9) {
+                    items.push({
+                        c: cols[0].replace(/"/g, '').trim(),
+                        t: cols[2].replace(/"/g, ''),
+                        r: cols[3],
+                        p: cols[5],
+                        o: cols[6],
+                        d: cols[7],
+                        s: cols[1],
+                        q: cols[9] ? cols[9].replace(/"/g, '').trim() : '#',
+                        l: cols[8]
+                    });
+                }
+            }
+            return items;
+        }
+
+        function filterItems(cat, el) {
+            document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            const filtered = allProducts.filter(p => p.c.toLowerCase().includes(cat.toLowerCase()));
+            renderBatch(filtered);
+        }
+
+        function renderBatch(items) {
+            const container = document.getElementById('card-container');
+            const html = items.map(p => `
+                <article class="card">
+                    <div class="image-section">
+                        <img src="${convertDriveLink(p.l)}" alt="${p.t}" class="product-img" loading="lazy" width="300" height="300">
+                    </div>
+                    <div class="content">
+                        <span class="category">${p.c} : <span class="sub_category">${p.s}</span></span>
+           
+                        <h2 class="title">${p.t}</h2>
+                        <div class="reviews">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>(${p.r}) <span class="sr-only">reviews</span>Reviews</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-box">
+                                <span class="current">$${p.p}</span>
+                                <span class="old">$${p.o}</span>
+                                <span class="discount-text">Save ${p.d}</span>
+                            </div>
+                            
+                           <button class="buy-btn" onclick="if('${p.q}' !== '#') { window.open('${p.q}', '_blank'); } else { alert('PLEASE CHECK YOUR INTERNET'); }">
+                              <i class="fas fa-shopping-cart"></i> BUY ON AMAZON
+                           </button>                      
+                          
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+            container.innerHTML = html;
+        }
+
+        fetchProducts();
+    </script>
+
+<section style="margin-top:20px;">
+     <div class="promo-banner">
+  <div class="promo-text">
+    <div class="promo-eyebrow">✦ Limited Time Offer</div>
+    <h2 class="promo-title">
+      Get <em>Glowing Skin</em><br>
+      <strong>Without Breaking</strong><br>
+      the Bank
+    </h2>
+    <p class="promo-desc">All products handpicked from Amazon with verified reviews. We only recommend what actually works.</p>
+    <a href="top.html" class="promo-btn">
+      Top Rated Items →
+    </a>
+  </div>
+  <div class="promo-visual">
+    <span class="promo-emoji">🌟</span>
+    <div class="promo-sub">Verified Amazon Products</div>
+  </div>
+</div>
+</section>
+
+<section class="benefits" id="about">
+  <div class="benefits-grid">
+    <div class="benefit">
+      <span class="benefit-icon">🔬</span>
+      <div class="benefit-title">Expert Reviewed</div>
+      <div class="benefit-desc">Every product is tested and verified before we recommend it to you.</div>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">✅</span>
+      <div class="benefit-title">Amazon Verified</div>
+      <div class="benefit-desc">All links go directly to Amazon with thousands of verified reviews.</div>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">💰</span>
+      <div class="benefit-title">Best Price Alert</div>
+      <div class="benefit-desc">We track prices and only show you the best deals available today.</div>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">🚀</span>
+      <div class="benefit-title">Fast Delivery</div>
+      <div class="benefit-desc">All products available with Amazon Prime — delivered in 1-2 days.</div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <div class="nl-eyebrow">Join the Community</div>
+    <h2 class="nl-title">Get <em>Weekly</em> Skincare Deals</h2>
+    <p class="nl-desc">No spam. Just the best Amazon skincare deals delivered to your inbox every week.</p>
+    
+    <form class="nl-form" id="sub-form">
+      <input type="email" name="user_email" id="user-email" class="nl-input" placeholder="Enter Email..." required>
+      <button type="submit" id="btn-submit" class="nl-btn">Subscribe</button>
+    </form>
+    
+  </div>
+</section>
+ <!-- csvck -->
     <script type="text/javascript">
-        // 1. EmailJS Initialize karein
         (function() {
-            emailjs.init("wWR3VAlfwpi0FLsEk"); // <-- Apni Public Key yahan dalein
+            emailjs.init("wWR3VAlfwpi0FLsEk"); 
         })();
 
         document.getElementById('sub-form').addEventListener('submit', function(event) {
@@ -97,14 +375,13 @@
             const btn = document.getElementById('btn-submit');
             const status = document.getElementById('status-msg');
             
-            // 2. Email fetch karna field se
+       
             const fetchedEmail = document.getElementById('user-email').value;
 
-            btn.innerText = 'Bhej raha hun...';
+            btn.innerText = 'Sending...';
             btn.disabled = true;
 
-            // 3. EmailJS ko data bhejna
-            // Yaad rakhein Template mein {{to_email}} likhna zaroori hai
+         
             const templateParams = {
                 to_email: fetchedEmail,
                 message: "Thankyou for subscribtion"
@@ -124,6 +401,134 @@
                 });
         });
     </script>
+
+    <!-- csvck -->
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">Serum<span>Holic</span></span>
+      <p class="footer-tagline">Your go-to source for the best skincare & health products on Amazon. Handpicked, tested, and loved by thousands.</p>
+   
+    </div>
+
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul class="footer-links">
+        <li><a href="#">All items</a></li>
+        <li><a href="#">Serums</a></li>
+        <li><a href="#">Moisturizers</a></li>
+        <li><a href="#">Eye Creams</a></li>
+        <li><a href="#">Supplements</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-social">
+        <a href="#" class="social-link"><img src="insta.jpg" alt="" width="35"></a>
+        <a href="#" class="social-link"><img src="ff.png" alt="" width="35"></a>
+        <a href="#" class="social-link"><img src="tik.png" alt="" width="35"></a>
+        <a href="#" class="social-link"><img src="yo.png" alt="" width="35"></a>
+      </div>
+  </div>
+
+     
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 SerumHolic.com · All Rights Reserved</div>
+
+    <div class="footer-disclaimer">
+      SerumHolic is a participant in the Amazon Services LLC Associates Program. We earn a commission when you purchase through our links at no extra cost to you.
+    </div>
+  </div>
+
+     <div class="footer-links">
+        <code><a href="https://hanzify.netlify.app/">Made By Muhammad Hanzala Khan</a></code>
+      </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('open');
+}
+
+
+function toggleWish(btn) {
+  btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍';
+  btn.style.transform = 'scale(1.3)';
+  setTimeout(() => btn.style.transform = 'scale(1)', 200);
+}
+
+
+document.querySelectorAll('.cat-card').forEach(card => {
+  card.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.nl-btn');
+  btn.textContent = '✓ Subscribed!';
+  btn.style.background = '#2E7D32';
+  e.target.querySelector('.nl-input').value = '';
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.product-card, .cat-card, .benefit, .pick-sm').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+  <a href="#" onclick="sendMail(event)" target="_blank" class="mail-float">
+    <img src="g.png" alt="mail" class="mail-icon">
+</a>
+<script>
+function sendMail(e) {
+  e.preventDefault();
+
+  const email = "hanzalak.khan123@gmail.com";
+  const subject = "Inquiry from SerumHolic";
+  const body = "hyee bro Hanzala,\n\n can you talk to me";
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // Mobile → mailto (app open)
+    window.location.href =
+      `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  } else {
+    // Desktop → Gmail web
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+      "_blank"
+    );
+  }
+}
+</script>
 
 </body>
 </html>
